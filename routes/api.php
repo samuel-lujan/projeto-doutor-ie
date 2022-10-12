@@ -30,7 +30,7 @@ Route::group([
 
 
     Route::group(['middleware' => ['auth:sanctum']], function(){
-
+        Route::get('livros', [BookController::class, 'index']);
         Route::post('livros', [BookController::class, 'store']);
         Route::get('livros/{book}', [BookController::class, 'show']);
         Route::put('livros/{book}', [BookController::class, 'update']);
