@@ -5,9 +5,34 @@ namespace App\Services\Books;
 use App\Models\Book;
 use App\Services\BaseService;
 use Exception;
+use Illuminate\Support\Collection;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
 class BookService extends BaseService  {
+
+    /**
+     * This Method will find books by they title, they creator or by they indexes
+     * @param array $attributes
+     * @return Collection
+     */
+    public function index(array $attributes): Collection {
+        $books = Book::with(['publisher', 'index']);
+
+        if (isset($attributes['titulo']))
+            $books = $books->where('title', $attributes['titulo']);
+
+        if (isset($attributes['publicador']))
+            $books = $books->whereHas('publisher', function($query) use ($attributes) {
+                $query->where('name', 'like', "%".$attributes['publicador']."%");
+            });
+
+        if (isset($attributes['indice']))
+            $books = $books->whereHas('index',  function($query) use ($attributes) {
+                $query->where('title', 'like', '%'.$attributes['indice'].'%');
+            });
+
+        return $books->get();
+    }
 
     /**
      * This Method will create a new Book

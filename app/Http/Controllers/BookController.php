@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\Books\IndexBookRequest;
 use App\Http\Requests\Books\StoreBookRequest;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Services\BookIndex\BookServiceIndex;
 use App\Services\Books\BookService;
 use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Log;
 
 class BookController extends Controller
@@ -21,8 +23,27 @@ class BookController extends Controller
         $this->bookIndexService = $bookIndexService;
     }
 
-    public function index() {
+    public function index(IndexBookRequest $request) {
+        $attributes = $request->validated();
+        try {
+            $response = $this->bookService->cahceByAttributes('books-index-', function() use ($attributes) {
+                return $this->bookService->index($attributes);
+            }, $attributes);
+        } catch (Exception $e) {
+            Log::error("Falha ao consultar livro {$e->getMessage()}", $e->getTrace());
+            return response()->json([
+                'success' => false,
+                'message' => 'falha ao consultar livro',
+            ]);
+        }
 
+        if ($response->count() > 0)
+            return BookResource::collection($response);
+        else
+            return response()->json([
+                'success' => true,
+                'data'  =>  [],
+            ]);
     }
 
     public function show(Book $book) {
