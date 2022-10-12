@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BookController;
+use App\Http\Controllers\DownloadMediaController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,5 +27,13 @@ Route::group([
 
     Route::post('user', [AuthController::class, 'store']);
     Route::post('auth/token', [AuthController::class, 'login']);
+
+
+    Route::group(['middleware' => ['auth:sanctum']], function(){
+        Route::post('livros', [BookController::class, 'store']);
+        Route::put('livros/{book}', [BookController::class, 'update']);
+        Route::get('livros/{book}.pdf', [DownloadMediaController::class, 'show']);
+        Route::delete('livros/{book}', [BookController::class, 'delete']);
+    });
 
 });
