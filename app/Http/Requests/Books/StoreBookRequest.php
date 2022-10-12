@@ -23,7 +23,6 @@ class StoreBookRequest extends FormRequest
      */
     public function rules()
     {
-
         $validation = [
             'titulo ' => 'required_without:titulo|string|min:01|max:255',
             'titulo' => 'required_without:titulo |string|min:01|max:255',
@@ -33,8 +32,8 @@ class StoreBookRequest extends FormRequest
             'indices.*.titulo' => 'required_without:titulo |string|min:1|max:255',
             'indices.*.pagina' => 'required|integer',
             'indices.*.subindices' => 'nullable|array|min:0',
+            'document'        => 'nullable|mimes:pdf|max:10000',
         ];
-
         return $validation;
     }
 }
