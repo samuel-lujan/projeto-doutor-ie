@@ -22,6 +22,9 @@ class BookService extends BaseService  {
             'title' =>  $title,
         ]);
 
+        if (isset($bookAttributes['document']))
+            $book->addMedia($bookAttributes['document'])->toMediaCollection('livros');
+
         if ($book)
             return [
                 'success' => true,
@@ -38,6 +41,11 @@ class BookService extends BaseService  {
         $updated = $book->update([
             'title' =>  $title,
         ]);
+
+        if (isset($bookAttributes['document'])){
+            $book->clearMediaCollection('livros');
+            $book->addMedia($bookAttributes['document'])->toMediaCollection('livros');
+        }
 
         if ($updated)
             return [
