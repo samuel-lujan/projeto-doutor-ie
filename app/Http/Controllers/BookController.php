@@ -65,4 +65,21 @@ class BookController extends Controller
             'data' => $book,
         ], 200);
     }
+
+    public function delete(Book $book){
+
+        try {
+            $this->bookService->delete($book);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 400);
+        }
+
+        return response()->json([
+            'success' => true,
+            'message' => "Livro apagado com sucesso",
+        ], 204);
+    }
 }
