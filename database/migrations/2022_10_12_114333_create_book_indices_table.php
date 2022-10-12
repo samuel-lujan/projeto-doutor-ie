@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('book_indices', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Book::class, 'book_id')->constrained();
+            $table->foreignIdFor(Book::class, 'book_id')->constrained()->onDelete('Cascade');
             $table->foreignIdFor(BookIndex::class, 'index_id')->nullable()->constrained('book_indices')->onDelete('cascade');
             $table->string('title', 255);
             $table->integer('page', false, true)->nullable();
