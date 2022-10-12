@@ -33,6 +33,7 @@ Route::group([
         Route::post('livros', [BookController::class, 'store']);
         Route::put('livros/{book}', [BookController::class, 'update']);
         Route::get('livros/{book}.pdf', [DownloadMediaController::class, 'show']);
+        Route::delete('livros/{book}', [BookController::class, 'delete']);
     });
 
 });
