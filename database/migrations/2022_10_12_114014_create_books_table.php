@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'publisher_user_id')->constrained();
+            $table->foreignIdFor(User::class, 'publisher_user_id')->onUpdate('noAction')->onDelete('cascade');
             $table->string('title', 300);
             $table->text('raw_text')->nullable();
             $table->timestamps();
