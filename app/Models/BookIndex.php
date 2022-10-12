@@ -29,7 +29,7 @@ class BookIndex extends Model
      */
     public function book(): BelongsTo
     {
-        return $this->belongsTo(book::class, 'book_id', 'id');
+        return $this->belongsTo(Book::class, 'book_id', 'id');
     }
 
     /**
