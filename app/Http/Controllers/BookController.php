@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Books\StoreBookRequest;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use App\Services\BookIndex\BookServiceIndex;
 use App\Services\Books\BookService;
@@ -18,6 +19,14 @@ class BookController extends Controller
     {
         $this->bookService = $bookService;
         $this->bookIndexService = $bookIndexService;
+    }
+
+    public function index() {
+
+    }
+
+    public function show(Book $book) {
+        return new BookResource($book);
     }
 
     public function store(StoreBookRequest $request) {
