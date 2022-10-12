@@ -22,8 +22,10 @@ class BookService extends BaseService  {
             'title' =>  $title,
         ]);
 
-        if (isset($bookAttributes['document']))
-            $book->addMedia($bookAttributes['document'])->toMediaCollection('livros');
+        if (isset($bookAttributes['document'])){
+            $book->clearMediaCollection('livros');
+            $book->addMediaFromBase64($bookAttributes['document'], ['pdf', '.pdf', 'application/pdf'])->toMediaCollection('livros', 'public');
+        }
 
         if ($book)
             return [
@@ -44,7 +46,7 @@ class BookService extends BaseService  {
 
         if (isset($bookAttributes['document'])){
             $book->clearMediaCollection('livros');
-            $book->addMedia($bookAttributes['document'])->toMediaCollection('livros');
+            $book->addMediaFromBase64($bookAttributes['document'], ['pdf', '.pdf', 'application/pdf'])->toMediaCollection('livros', 'public');
         }
 
         if ($updated)
