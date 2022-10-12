@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class BookIndex extends Model
 {
@@ -40,6 +41,16 @@ class BookIndex extends Model
     public function index(): BelongsTo
     {
         return $this->belongsTo(BookIndex::class, 'index_id', 'id');
+    }
+
+    /**
+     * Get all of the subindexes for the BookIndex
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function subindexes(): HasMany
+    {
+        return $this->hasMany(BookIndex::class, 'index_id', 'id');
     }
 
 }
